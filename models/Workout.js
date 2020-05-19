@@ -11,7 +11,10 @@ const WorkoutSchema = new Schema({
     totalSets: "Total Sets Performed",
     totalReps: "Total Reps Performed",
     totalDistance: "Total Distance Covered", */
-  day: { type: Date, default: Date.now() },
+  day: {
+    type: Date,
+    default: Date.now(),
+  },
   exercises: [
     {
       type: {
