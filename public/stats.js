@@ -11,7 +11,7 @@ fetch("/api/workouts/range")
 API.getWorkoutsInRange();
 
 function generatePalette() {
-    const arr = [
+  const arr = [
     "#003f5c",
     "#2f4b7c",
     "#665191",
