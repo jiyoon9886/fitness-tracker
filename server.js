@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 
@@ -25,23 +26,39 @@ app.get("/", (req, res) => {
 
 app.get("/api/workouts", async (req, res) => {
   try {
-    const allWorkouts = await db.workouts.find({});
+    const allWorkouts = await db.Workout.find({});
     res.json(allWorkouts);
   } catch (err) {
     res.json(err);
   }
 });
 
-/* app.get("api/workouts", (req, res) => {
-  db.workouts
-    .find({})
-    .then((workouts) => {
-      res.json(workouts);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-}); */
+app.get("/exercise", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/exercise.html"));
+});
+
+//get one workout by the id and push a new exercise into the exercises array
+app.put("/api/workouts/:id", (req, res) => {
+  db.Workout.update(
+    {
+      _id: req.params.id,
+    },
+    {
+      $push: {
+        exercises: req.body,
+      },
+    },
+    (err, data) => {
+      // If statement to catch errors
+      if (err) {
+        res.send(err);
+        // Display Data in JSON data format
+      } else {
+        res.json(data);
+      }
+    }
+  );
+});
 
 // Start the server
 app.listen(PORT, () => {
