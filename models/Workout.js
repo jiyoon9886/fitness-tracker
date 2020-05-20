@@ -49,7 +49,20 @@ const WorkoutSchema = new Schema({
       },
     },
   ],
+  totalDuration: {
+    type: Number,
+  },
 });
+
+/* WorkoutSchema.methods.setTotalDuration = function () {
+  let total = 0;
+  console.log("Help!");
+  WorkoutSchema.exercises.forEach((exercise) => {
+    total += exercise.duration;
+  });
+  this.totalDuration = total;
+  return this.totalDuration;
+}; */
 
 const Workout = mongoose.model("Workout", WorkoutSchema);
 

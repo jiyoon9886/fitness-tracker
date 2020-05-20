@@ -24,13 +24,17 @@ app.get("/", (req, res) => {
   res.send(index.html);
 });
 
-app.get("/api/workouts", async (req, res) => {
-  try {
-    const allWorkouts = await db.Workout.find({});
-    res.json(allWorkouts);
-  } catch (err) {
-    res.json(err);
-  }
+app.get("/api/workouts", (req, res) => {
+  db.Workout.find({}, (err, data) => {
+    // If statement to catch errors
+    if (err) {
+      res.send(err);
+      // Display Data in JSON data format
+    } else {
+      res.json(data);
+      console.log(data);
+    }
+  });
 });
 
 app.get("/exercise", (req, res) => {
@@ -58,6 +62,20 @@ app.put("/api/workouts/:id", (req, res) => {
       }
     }
   );
+});
+
+app.post("/api/workouts", (req, res) => {
+  db.Workout.insert(req.body, (err, data) => {
+    // If statement to catch errors
+    console.log(req.body);
+    if (err) {
+      res.send(err);
+      // Display Data in JSON data format
+    } else {
+      res.json(data);
+      console.log(data);
+    }
+  });
 });
 
 // Start the server
