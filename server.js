@@ -41,6 +41,22 @@ app.get("/exercise", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/exercise.html"));
 });
 
+app.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/stats.html"));
+});
+
+app.get("/api/workouts/range", (req, res) => {
+  db.Workout.find({}, (err, data) => {
+    // If statement to catch errors
+    if (err) {
+      res.send(err);
+      // Display Data in JSON data format
+    } else {
+      res.json(data);
+      console.log(data);
+    }
+  });
+});
 //get one workout by the id and push a new exercise into the exercises array
 app.put("/api/workouts/:id", (req, res) => {
   db.Workout.update(
