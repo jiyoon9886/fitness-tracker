@@ -65,7 +65,7 @@ app.put("/api/workouts/:id", (req, res) => {
 });
 
 app.post("/api/workouts", (req, res) => {
-  db.Workout.insert(req.body, (err, data) => {
+  db.Workout.create(req.body, (err, data) => {
     // If statement to catch errors
     console.log(req.body);
     if (err) {
