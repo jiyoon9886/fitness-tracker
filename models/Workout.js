@@ -67,6 +67,8 @@ WorkoutSchema.methods.setTotalDuration = function () {
 
 WorkoutSchema.methods.addExercise = function (exercise) {
   this.exercises.push(exercise);
+  this.setTotalDuration();
+  return this.save();
 };
 
 const Workout = mongoose.model("Workout", WorkoutSchema);

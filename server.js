@@ -62,9 +62,7 @@ app.put("/api/workouts/:id", async (req, res) => {
       _id: req.params.id,
     });
 
-    currentWorkout.addExercise(req.body);
-    currentWorkout.setTotalDuration();
-    const savedWorkout = await currentWorkout.save();
+    const savedWorkout = await currentWorkout.addExercise(req.body);
     res.json(savedWorkout);
   } catch (err) {
     throw err;
