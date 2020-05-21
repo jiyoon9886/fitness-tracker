@@ -46,14 +46,12 @@ app.get("/stats", (req, res) => {
 });
 
 app.get("/api/workouts/range", (req, res) => {
-  db.Workout.find({}, (err, data) => {
-    // If statement to catch errors
+  const startDate = new Date().setDate(new Date().getDate() - 7);
+  db.Workout.find({ day: { $gte: startDate } }, (err, data) => {
     if (err) {
-      res.send(err);
-      // Display Data in JSON data format
+      console.log(err);
     } else {
       res.json(data);
-      console.log(data);
     }
   });
 });
