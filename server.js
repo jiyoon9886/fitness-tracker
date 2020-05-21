@@ -32,7 +32,7 @@ app.get("/api/workouts", (req, res) => {
       // Display Data in JSON data format
     } else {
       res.json(data);
-      console.log(data);
+      //console.log(data);
     }
   });
 });
@@ -56,38 +56,30 @@ app.get("/api/workouts/range", (req, res) => {
   });
 });
 //get one workout by the id and push a new exercise into the exercises array
-app.put("/api/workouts/:id", (req, res) => {
-  db.Workout.update(
-    {
+app.put("/api/workouts/:id", async (req, res) => {
+  try {
+    const currentWorkout = await db.Workout.findOne({
       _id: req.params.id,
-    },
-    {
-      $push: {
-        exercises: req.body,
-      },
-    },
-    (err, data) => {
-      // If statement to catch errors
-      if (err) {
-        res.send(err);
-        // Display Data in JSON data format
-      } else {
-        res.json(data);
-      }
-    }
-  );
+    });
+
+    currentWorkout.addExercise(req.body);
+    currentWorkout.setTotalDuration();
+    const savedWorkout = await currentWorkout.save();
+    res.json(savedWorkout);
+  } catch (err) {
+    throw err;
+  }
 });
 
 app.post("/api/workouts", (req, res) => {
   db.Workout.create(req.body, (err, data) => {
     // If statement to catch errors
-    console.log(req.body);
+    //console.log(req.body);
     if (err) {
       res.send(err);
       // Display Data in JSON data format
     } else {
       res.json(data);
-      console.log(data);
     }
   });
 });
